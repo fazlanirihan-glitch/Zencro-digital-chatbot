@@ -1,0 +1,254 @@
+@import "tailwindcss";
+
+/* ===== THEME TOKENS ===== */
+:root {
+  /* Dynamic brand colors (overridden by branding.ts at runtime) */
+  --brand-primary: 217 91% 53%;
+  --brand-secondary: 199 89% 48%;
+  --brand-gradient: linear-gradient(135deg, #2563eb 0%, #0ea5e9 50%, #7c3aed 100%);
+
+  /* Dark theme (default) */
+  --background: #0a0e1a;
+  --background-secondary: #0f1629;
+  --foreground: #f1f5f9;
+  --foreground-muted: #94a3b8;
+  --surface: rgba(15, 22, 41, 0.85);
+  --surface-hover: rgba(30, 41, 65, 0.9);
+  --border: rgba(148, 163, 184, 0.08);
+  --border-hover: rgba(148, 163, 184, 0.15);
+  --glass-bg: rgba(15, 22, 41, 0.6);
+  --glass-border: rgba(148, 163, 184, 0.06);
+  --bubble-user: hsl(var(--brand-primary));
+  --bubble-user-text: #ffffff;
+  --bubble-bot: rgba(30, 41, 65, 0.7);
+  --bubble-bot-text: #e2e8f0;
+  --input-bg: rgba(15, 22, 41, 0.8);
+  --input-border: rgba(148, 163, 184, 0.1);
+  --input-focus: hsl(var(--brand-primary));
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 24px hsla(var(--brand-primary), 0.15);
+  color-scheme: dark;
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --background: #f8fafc;
+  --background-secondary: #f1f5f9;
+  --foreground: #0f172a;
+  --foreground-muted: #64748b;
+  --surface: rgba(255, 255, 255, 0.9);
+  --surface-hover: rgba(241, 245, 249, 0.95);
+  --border: rgba(15, 23, 42, 0.08);
+  --border-hover: rgba(15, 23, 42, 0.15);
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(15, 23, 42, 0.06);
+  --bubble-user: hsl(var(--brand-primary));
+  --bubble-user-text: #ffffff;
+  --bubble-bot: rgba(241, 245, 249, 0.9);
+  --bubble-bot-text: #1e293b;
+  --input-bg: rgba(255, 255, 255, 0.9);
+  --input-border: rgba(15, 23, 42, 0.1);
+  --input-focus: hsl(var(--brand-primary));
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 24px hsla(var(--brand-primary), 0.1);
+  color-scheme: light;
+}
+
+/* ===== TAILWIND THEME INTEGRATION ===== */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: hsl(var(--brand-primary));
+  --color-surface: var(--surface);
+  --color-glass-bg: var(--glass-bg);
+}
+
+/* ===== BASE STYLES ===== */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: "Inter", "Outfit", system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: hsla(var(--brand-primary), 0.2); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: hsla(var(--brand-primary), 0.4); }
+
+/* Chat area custom scrollbar */
+.chat-scroll::-webkit-scrollbar { width: 4px; }
+.chat-scroll::-webkit-scrollbar-track { background: transparent; }
+.chat-scroll::-webkit-scrollbar-thumb { background: hsla(var(--brand-primary), 0.15); border-radius: 10px; }
+
+/* ===== GLASSMORPHISM ===== */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-strong {
+  background: var(--surface);
+  backdrop-filter: blur(32px) saturate(200%);
+  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  border: 1px solid var(--border);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes bounceDot {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(-4px); opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ===== ANIMATION UTILITIES ===== */
+.animate-fade-in-up { animation: fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-fade-in-scale { animation: fadeInScale 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-slide-right { animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-slide-left { animation: slideInLeft 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent 33%, hsla(var(--brand-primary), 0.08) 50%, transparent 66%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease infinite;
+}
+.animate-float { animation: float 3s ease-in-out infinite; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== MARKDOWN RENDERING ===== */
+.markdown-body {
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  word-wrap: break-word;
+}
+.markdown-body p { margin-bottom: 0.5em; }
+.markdown-body p:last-child { margin-bottom: 0; }
+.markdown-body strong { font-weight: 600; color: var(--foreground); }
+.markdown-body em { font-style: italic; }
+.markdown-body ul, .markdown-body ol { padding-left: 1.25em; margin: 0.5em 0; }
+.markdown-body li { margin-bottom: 0.25em; }
+.markdown-body li::marker { color: hsl(var(--brand-primary)); }
+.markdown-body a {
+  color: hsl(var(--brand-primary));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.markdown-body a:hover { opacity: 0.8; }
+.markdown-body code {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 0.85em;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: hsla(var(--brand-primary), 0.1);
+  color: hsl(var(--brand-primary));
+}
+.markdown-body pre {
+  margin: 0.75em 0;
+  border-radius: 8px;
+  overflow-x: auto;
+  background: rgba(0, 0, 0, 0.3) !important;
+  border: 1px solid var(--border);
+}
+.markdown-body pre code {
+  display: block;
+  padding: 1em;
+  background: transparent !important;
+  color: var(--foreground);
+  font-size: 0.825em;
+  line-height: 1.6;
+}
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75em 0;
+  font-size: 0.875em;
+}
+.markdown-body th, .markdown-body td {
+  border: 1px solid var(--border);
+  padding: 0.5em 0.75em;
+  text-align: left;
+}
+.markdown-body th {
+  background: hsla(var(--brand-primary), 0.08);
+  font-weight: 600;
+}
+.markdown-body blockquote {
+  border-left: 3px solid hsl(var(--brand-primary));
+  padding-left: 1em;
+  margin: 0.75em 0;
+  color: var(--foreground-muted);
+  font-style: italic;
+}
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+  font-weight: 600;
+  margin: 0.75em 0 0.35em;
+  color: var(--foreground);
+}
+.markdown-body h1 { font-size: 1.25em; }
+.markdown-body h2 { font-size: 1.125em; }
+.markdown-body h3 { font-size: 1em; }
+.markdown-body hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 1em 0;
+}
